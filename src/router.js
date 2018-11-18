@@ -11,12 +11,12 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'welcome',
+      name: 'Welcome',
       component: Welcome
     },
     {
       path: '/about',
-      name: 'about',
+      name: 'About',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -25,7 +25,18 @@ export default new Router({
     {
       path: '/chat',
       name: 'Chat',
-      component: Chat
+      component: Chat,
+      props: true,
+      // on s'attend à ce que des props soient passées
+      // on va attacher un route guard pour éviter qu'elle soit utilisée sans prop
+      // beforeEnter: (to, from, next) => {}
+      beforeEnter: (to, from, next) => {
+        if(to.params.name) {
+        next()
+        } else {
+          next( {name: 'Welcome'} )
+        }
+      } 
     }
   ]
 })
